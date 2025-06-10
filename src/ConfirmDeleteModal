@@ -1,0 +1,28 @@
+import './ConfirmDeleteModal.css';
+
+function ConfirmDeleteModal() {
+  const { pendingDelete, setPendingDelete, dispatch } = useContext(KanbanContext);
+
+  if (!pendingDelete) return null;
+
+  const { card, from } = pendingDelete;
+
+  const confirm = () => {
+    dispatch({ type: 'DELETE_CARD', payload: { cardId: card.id, from } });
+    setPendingDelete(null);
+  };
+
+  const cancel = () => setPendingDelete(null);
+
+  return (
+    <div className="confirm-modal">
+      <div className="modal-content">
+        <p>Delete "{card.text}"?</p>
+        <div className="modal-buttons">
+          <button onClick={confirm}>Confirm</button>
+          <button onClick={cancel}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  );
+}
